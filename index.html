@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تقدم – قريباً</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --black: #080c10;
+      --white: #f0f4f8;
+      --blue: #1a6dff;
+      --blue-light: #4d8fff;
+      --blue-dim: rgba(26, 109, 255, 0.12);
+      --blue-line: rgba(26, 109, 255, 0.25);
+      --grid-size: 40px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      direction: rtl;
+    }
+
+    /* ─── Blueprint Grid Background ─── */
+    .blueprint-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-color: var(--black);
+      background-image:
+        linear-gradient(var(--blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blue-line) 1px, transparent 1px),
+        linear-gradient(rgba(26,109,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,109,255,0.06) 1px, transparent 1px);
+      background-size:
+        var(--grid-size) var(--grid-size),
+        var(--grid-size) var(--grid-size),
+        8px 8px,
+        8px 8px;
+      pointer-events: none;
+    }
+
+    .blueprint-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,109,255,0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 50% 100%, rgba(26,109,255,0.05) 0%, transparent 60%);
+    }
+
+    /* ─── Corner Marks ─── */
+    .corner {
+      position: fixed;
+      width: 28px;
+      height: 28px;
+      z-index: 10;
+      opacity: 0.4;
+    }
+    .corner--tl { top: 20px; right: 20px; border-top: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); }
+    .corner--tr { top: 20px; left: 20px; border-top: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); }
+    .corner--bl { bottom: 20px; right: 20px; border-bottom: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); }
+    .corner--br { bottom: 20px; left: 20px; border-bottom: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); }
+
+    /* ─── Scan Line Effect ─── */
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    .scanline {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(26,109,255,0.3), transparent);
+      animation: scanline 8s linear infinite;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* ─── Wrapper ─── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Logo Mark */
+    .logo-wrap {
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.2s;
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(16px, 3vw, 32px);
+    }
+
+    .logo-icon {
+      width: clamp(100px, 18vw, 200px);
+      height: clamp(100px, 18vw, 200px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .logo-icon::before {
+      content: none;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+    }
+
+    .logo-text {
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .logo-text span {
+      color: var(--blue-light);
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--blue-line);
+      background: var(--blue-dim);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--blue-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.4s;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Headline */
+    .headline {
+      font-size: clamp(44px, 8vw, 88px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--white);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.55s;
+    }
+
+    .headline em {
+      font-style: normal;
+      color: var(--blue-light);
+      position: relative;
+    }
+
+    .headline em::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      right: 0;
+      left: 0;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+
+    /* Sub-headline */
+    .subline {
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 400;
+      color: rgba(240,244,248,0.55);
+      max-width: 480px;
+      line-height: 1.7;
+      margin: 0 auto 56px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.7s;
+    }
+
+    /* Scroll Indicator */
+    .scroll-cta {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 1.1s;
+      cursor: pointer;
+      text-decoration: none;
+      color: rgba(240,244,248,0.35);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .scroll-cta:hover { color: rgba(240,244,248,0.65); }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    /* Decorative ruler */
+    .ruler {
+      position: absolute;
+      top: 0;
+      right: 48px;
+      width: 1px;
+      height: 100%;
+      background: var(--blue-line);
+      overflow: hidden;
+    }
+
+    .ruler-marks {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      padding-top: 80px;
+    }
+
+    .ruler-mark {
+      width: 8px;
+      height: 1px;
+      background: var(--blue-line);
+      position: relative;
+    }
+
+    .ruler-mark:nth-child(5n) {
+      width: 16px;
+      background: rgba(26,109,255,0.45);
+    }
+
+    /* Blueprint crosshair decoration */
+    .crosshair {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.15;
+    }
+
+    .crosshair::before,
+    .crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--blue);
+    }
+
+    .crosshair::before {
+      width: 100%; height: 1px;
+      top: 50%; left: 0;
+    }
+
+    .crosshair::after {
+      height: 100%; width: 1px;
+      left: 50%; top: 0;
+    }
+
+    .crosshair--1 { bottom: 15%; left: 8%; }
+    .crosshair--2 { top: 20%; right: 6%; }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--blue-line);
+      margin: 0;
+      position: relative;
+    }
+
+    .section-divider::before {
+      content: '◆';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--blue);
+      font-size: 10px;
+      background: var(--black);
+      padding: 0 12px;
+    }
+
+    /* ─── SUBSCRIPTION SECTION ─── */
+    .subscribe-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+      animation-play-state: paused;
+    }
+
+    .section-label.visible {
+      animation-play-state: running;
+    }
+
+    .subscribe-headline {
+      font-size: clamp(30px, 5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--white);
+      margin-bottom: 16px;
+      line-height: 1.2;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.15s;
+      animation-play-state: paused;
+    }
+
+    .subscribe-headline.visible {
+      animation-play-state: running;
+    }
+
+    .subscribe-sub {
+      font-size: 16px;
+      color: rgba(240,244,248,0.5);
+      margin-bottom: 52px;
+      max-width: 420px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.25s;
+      animation-play-state: paused;
+    }
+
+    .subscribe-sub.visible {
+      animation-play-state: running;
+    }
+
+    /* Form */
+    .form-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      max-width: 440px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.35s;
+      animation-play-state: paused;
+    }
+
+    .form-wrap.visible {
+      animation-play-state: running;
+    }
+
+    .input-group {
+      display: flex;
+      width: 100%;
+      border: 1px solid var(--blue-line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(26,109,255,0.04);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .input-group:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,109,255,0.15);
+    }
+
+    .email-input {
+      flex: 1;
+      padding: 16px 20px;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-size: 15px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--white);
+      direction: rtl;
+      text-align: right;
+    }
+
+    .email-input::placeholder {
+      color: rgba(240,244,248,0.3);
+    }
+
+    .submit-btn {
+      padding: 16px 24px;
+      background: var(--blue);
+      border: none;
+      color: var(--white);
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease, opacity 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .submit-btn:hover { background: var(--blue-light); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { background: #555; cursor: not-allowed; opacity: 0.6; }
+
+    .micro-copy {
+      font-size: 12px;
+      color: rgba(240,244,248,0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .micro-copy svg {
+      width: 12px;
+      height: 12px;
+      fill: rgba(26,109,255,0.6);
+      flex-shrink: 0;
+    }
+
+    /* Success State */
+    .success-msg {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: var(--blue-light);
+      font-size: 18px;
+      font-weight: 600;
+      padding: 20px;
+    }
+
+    .success-msg.show { display: flex; }
+    .success-icon { font-size: 40px; }
+
+    /* Blueprint panels */
+    .bp-panel {
+      position: absolute;
+      border: 1px solid var(--blue-line);
+      border-radius: 8px;
+      background: rgba(26,109,255,0.02);
+      padding: 12px 16px;
+      font-size: 11px;
+      color: rgba(26,109,255,0.4);
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+
+    .bp-panel--1 {
+      top: 12%;
+      left: 4%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bp-panel--2 {
+      bottom: 14%;
+      right: 4%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bp-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .bp-key { opacity: 0.5; }
+    .bp-val { color: rgba(26,109,255,0.7); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--blue-line);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .footer-email {
+      font-size: 14px;
+      color: rgba(240,244,248,0.45);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-email:hover { color: var(--blue-light); }
+
+    .footer-email svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(240,244,248,0.2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .ruler { display: none; }
+      .bp-panel { display: none; }
+      .crosshair { display: none; }
+      .corner { width: 20px; height: 20px; }
+
+      .input-group {
+        flex-direction: column;
+        border-radius: 12px;
+      }
+
+      .submit-btn {
+        border-radius: 0 0 11px 11px;
+        padding: 14px;
+        width: 100%;
+      }
+
+      .email-input {
+        padding: 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blueprint-bg"></div>
+  <div class="scanline"></div>
+
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <div class="wrapper">
+
+    <section class="hero" id="hero">
+
+      <div class="ruler">
+        <div class="ruler-marks">
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+        </div>
+      </div>
+
+      <div class="crosshair crosshair--1"></div>
+      <div class="crosshair crosshair--2"></div>
+
+      <div class="logo-wrap">
+        <div class="logo-mark">
+          <div class="logo-icon">
+            <img src="logo.png" alt="تقدم Logo" style="width:100%;height:100%;object-fit:contain;filter:invert(1);">
+          </div>
+          <div class="logo-text">تق<span>دّم</span></div>
+        </div>
+      </div>
+
+      <div class="badge">
+        <div class="badge-dot"></div>
+        قريباً · COMING SOON
+      </div>
+
+      <h1 class="headline">
+        الإنطلاق
+        <em>قرب</em>
+      </h1>
+
+      <p class="subline">
+        جاهزين لشيء مختلف — منصة تعليمية جديدة كلياً،
+        صُمّمت لك وبلغتك وبأسلوبك.
+      </p>
+
+      <a href="#subscribe" class="scroll-cta">
+        اكتشف أكثر
+        <svg class="scroll-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+    </section>
+
+    <hr class="section-divider" />
+
+    <section class="subscribe-section" id="subscribe">
+
+      <div class="bp-panel bp-panel--1">
+        <div class="bp-row"><span class="bp-key">STATUS</span><span class="bp-val">IN DEVELOPMENT</span></div>
+        <div class="bp-row"><span class="bp-key">REGION</span><span class="bp-val">KSA</span></div>
+        <div class="bp-row"><span class="bp-key">LANG</span><span class="bp-val">AR</span></div>
+      </div>
+
+      <div class="bp-panel bp-panel--2">
+        <div class="bp-row"><span class="bp-key">PHASE</span><span class="bp-val">PRE-LAUNCH</span></div>
+        <div class="bp-row"><span class="bp-key">MODE</span><span class="bp-val">BETA SIGNUP</span></div>
+      </div>
+
+      <p class="section-label anim-trigger">ابق على اطلاع</p>
+
+      <h2 class="subscribe-headline anim-trigger">
+        خلّك أول واحد يعرف
+      </h2>
+
+      <p class="subscribe-sub anim-trigger">
+        اكتب إيميلك ونبلغك أول ما نبدأ —<br />
+        ما تفوّت اللحظة
+      </p>
+
+      <form action="https://docs.google.com/forms/u/0/d/1-K4zjj1JpjRDB5PHAs7uiPh2eAhvbwF60iyN7aVhIdI/formResponse" method="POST" class="form-wrap anim-trigger" id="formWrap">
+        <div class="input-group">
+          <input
+			name="entry.1463635083"
+            class="email-input"
+            type="email"
+            id="emailInput"
+            placeholder="إيميلك هنا..."
+            autocomplete="email"
+            required
+          />
+          <button type="submit" class="submit-btn" id="submitBtn">سجّلني</button>
+        </div>
+
+        <p class="micro-copy">
+          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 6a1 1 0 110 2 1 1 0 010-2zm1 4H7v-3h2v3z"/>
+          </svg>
+          ما نرسل لك أي شيء غير إشعار الإطلاق، وخلاص
+        </p>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">✦</div>
+        <p>تم التسجيل! نبلّغك أول ما ننطلق 🚀</p>
+      </div>
+
+    </section>
+
+    <footer>
+      <a href="mailto:contact@tqdum.com" class="footer-email">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+        </svg>
+        contact@tqdum.com
+      </a>
+      <p class="footer-copy">© 2025 تقدّم · جميع الحقوق محفوظة</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // ─── Intersection Observer for scroll animations
+    const animTargets = document.querySelectorAll('.anim-trigger');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    animTargets.forEach(el => observer.observe(el));
+
+
+    // ─── AJAX Email subscription handler ───
+    document.getElementById('formWrap').addEventListener('submit', function(e) {
+      e.preventDefault(); // منع الصفحة من الارسال وإعادة التحميل الافتراضية
+
+      const form = e.target;
+      const input = document.getElementById('emailInput');
+      const button = document.getElementById('submitBtn');
+      const val = input.value.trim();
+
+      // التحقق الأساسي من الإيميل
+      if (!val || !val.includes('@')) {
+        input.focus();
+        input.style.borderColor = 'rgba(255,80,80,0.5)';
+        setTimeout(() => { input.style.borderColor = ''; }, 1500);
+        return;
+      }
+
+      // تغيير حالة الزر أثناء الإرسال لمنع التكرار
+      button.innerText = "جاري الحفظ...";
+      button.disabled = true;
+
+      // تجهيز البيانات الملتقطة من الحقول لإرسالها
+      const formData = new FormData(form);
+
+      // إرسال البيانات إلى السيرفر في الخلفية عبر AJAX (Fetch API)
+      fetch(form.action, {
+        method: 'POST',
+        mode: 'no-cors', // ضروري جداً لتجنب مشاكل CORS مع خوادم جوجل
+        body: formData
+      })
+      .then(() => {
+        // بمجرد إتمام الإرسال، نقوم بتنفيذ مؤثر الاختفاء والاظهار الحالي في صفحتك
+        const formWrap = document.getElementById('formWrap');
+        const successMsg = document.getElementById('successMsg');
+
+        formWrap.style.opacity = '0';
+        formWrap.style.transform = 'translateY(-10px)';
+        formWrap.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+        setTimeout(() => {
+          formWrap.style.display = 'none';
+          successMsg.classList.add('show');
+        }, 300);
+
+        form.reset(); // تفريغ الحقل
+      })
+      .catch(error => {
+        console.error('Error submitting to Google Forms:', error);
+        // إعادة الزر لوضعه في حال حدث خطأ تقني نادر بالشبكة
+        button.innerText = "سجّلني";
+        button.disabled = false;
+        alert("حدث خطأ أثناء الاتصال، يرجى المحاولة مرة أخرى.");
+      });
+    });
+
+
+    // ─── Smooth scroll for scroll CTA
+    document.querySelector('.scroll-cta').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('subscribe').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
