@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تقدم – قريباً</title>
+  <title>تقدم – منصة تعليمية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --black: #080c10;
+      --black: #0b0f14;
+      --card-bg: #131922;
       --white: #f0f4f8;
       --blue: #1a6dff;
       --blue-light: #4d8fff;
-      --blue-dim: rgba(26, 109, 255, 0.12);
-      --blue-line: rgba(26, 109, 255, 0.25);
-      --grid-size: 40px;
+      --blue-dim: rgba(26, 109, 255, 0.1);
+      --border: rgba(26, 109, 255, 0.15);
     }
 
     *, *::before, *::after {
@@ -34,784 +34,528 @@
       background-color: var(--black);
       color: var(--white);
       min-height: 100vh;
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
       direction: rtl;
     }
 
-    /* ─── Blueprint Grid Background ─── */
-    .blueprint-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background-color: var(--black);
-      background-image:
-        linear-gradient(var(--blue-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--blue-line) 1px, transparent 1px),
-        linear-gradient(rgba(26,109,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(26,109,255,0.06) 1px, transparent 1px);
-      background-size:
-        var(--grid-size) var(--grid-size),
-        var(--grid-size) var(--grid-size),
-        8px 8px,
-        8px 8px;
-      pointer-events: none;
+    /* ─── Navigation ─── */
+    header {
+      background: rgba(11, 15, 20, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .blueprint-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,109,255,0.08) 0%, transparent 70%),
-                  radial-gradient(ellipse 60% 50% at 50% 100%, rgba(26,109,255,0.05) 0%, transparent 60%);
-    }
-
-    /* ─── Corner Marks ─── */
-    .corner {
-      position: fixed;
-      width: 28px;
-      height: 28px;
-      z-index: 10;
-      opacity: 0.4;
-    }
-    .corner--tl { top: 20px; right: 20px; border-top: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); }
-    .corner--tr { top: 20px; left: 20px; border-top: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); }
-    .corner--bl { bottom: 20px; right: 20px; border-bottom: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); }
-    .corner--br { bottom: 20px; left: 20px; border-bottom: 1.5px solid var(--blue); border-left: 1.5px solid var(--blue); }
-
-    /* ─── Scan Line Effect ─── */
-    @keyframes scanline {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100vh); }
-    }
-    .scanline {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(26,109,255,0.3), transparent);
-      animation: scanline 8s linear infinite;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    /* ─── Wrapper ─── */
-    .wrapper {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ─── HERO ─── */
-    .hero {
-      min-height: 100vh;
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      padding: 80px 24px 60px;
-      text-align: center;
-      position: relative;
-    }
-
-    /* Logo Mark */
-    .logo-wrap {
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.2s;
-    }
-
-    .logo-mark {
-      display: inline-flex;
-      align-items: center;
-      gap: clamp(16px, 3vw, 32px);
-    }
-
-    .logo-icon {
-      width: clamp(100px, 18vw, 200px);
-      height: clamp(100px, 18vw, 200px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .logo-icon::before {
-      content: none;
-    }
-
-    .logo-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: invert(1);
     }
 
     .logo-text {
-      font-size: clamp(40px, 7vw, 80px);
+      font-size: 24px;
       font-weight: 700;
-      letter-spacing: -1px;
       color: var(--blue-light);
-      line-height: 1;
+      text-decoration: none;
     }
 
-    .logo-text span {
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: rgba(240, 244, 248, 0.7);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    nav a:hover, nav a.active {
       color: var(--blue-light);
     }
 
-    /* Badge */
+    /* ─── Main Content Wrapper ─── */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active-page {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Home Page ─── */
+    .hero {
+      text-align: center;
+      padding: 80px 0;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 1px solid var(--blue-line);
+      border: 1px solid var(--border);
       background: var(--blue-dim);
       border-radius: 100px;
       padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 13px;
       color: var(--blue-light);
-      letter-spacing: 0.5px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.4s;
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--blue);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    /* Headline */
-    .headline {
-      font-size: clamp(44px, 8vw, 88px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      color: var(--white);
       margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.55s;
+    }
+
+    .headline {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
     }
 
     .headline em {
       font-style: normal;
       color: var(--blue-light);
-      position: relative;
     }
 
-    .headline em::after {
-      content: '';
-      position: absolute;
-      bottom: 4px;
-      right: 0;
-      left: 0;
-      height: 2px;
-      background: var(--blue);
-      border-radius: 2px;
-    }
-
-    /* Sub-headline */
     .subline {
-      font-size: clamp(16px, 2.5vw, 20px);
-      font-weight: 400;
-      color: rgba(240,244,248,0.55);
-      max-width: 480px;
-      line-height: 1.7;
-      margin: 0 auto 56px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.7s;
+      font-size: clamp(16px, 2.5vw, 18px);
+      color: rgba(240,244,248,0.6);
+      line-height: 1.8;
+      margin-bottom: 40px;
     }
 
-    /* Scroll Indicator */
-    .scroll-cta {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 1.1s;
-      cursor: pointer;
-      text-decoration: none;
-      color: rgba(240,244,248,0.35);
-      font-size: 11px;
-      letter-spacing: 1.5px;
-    }
-
-    .scroll-cta:hover { color: rgba(240,244,248,0.65); }
-
-    @keyframes scrollBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
-
-    .scroll-arrow {
-      width: 20px;
-      height: 20px;
-      animation: scrollBounce 2s ease-in-out infinite;
-    }
-
-    /* Decorative ruler */
-    .ruler {
-      position: absolute;
-      top: 0;
-      right: 48px;
-      width: 1px;
-      height: 100%;
-      background: var(--blue-line);
-      overflow: hidden;
-    }
-
-    .ruler-marks {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      padding-top: 80px;
-    }
-
-    .ruler-mark {
-      width: 8px;
-      height: 1px;
-      background: var(--blue-line);
-      position: relative;
-    }
-
-    .ruler-mark:nth-child(5n) {
-      width: 16px;
-      background: rgba(26,109,255,0.45);
-    }
-
-    /* Blueprint crosshair decoration */
-    .crosshair {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      opacity: 0.15;
-    }
-
-    .crosshair::before,
-    .crosshair::after {
-      content: '';
-      position: absolute;
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
       background: var(--blue);
-    }
-
-    .crosshair::before {
-      width: 100%; height: 1px;
-      top: 50%; left: 0;
-    }
-
-    .crosshair::after {
-      height: 100%; width: 1px;
-      left: 50%; top: 0;
-    }
-
-    .crosshair--1 { bottom: 15%; left: 8%; }
-    .crosshair--2 { top: 20%; right: 6%; }
-
-    /* ─── DIVIDER ─── */
-    .section-divider {
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.2s, transform 0.2s;
       border: none;
-      border-top: 1px solid var(--blue-line);
-      margin: 0;
-      position: relative;
+      cursor: pointer;
+      text-align: center;
     }
 
-    .section-divider::before {
-      content: '◆';
-      position: absolute;
-      top: -9px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--blue);
-      font-size: 10px;
-      background: var(--black);
-      padding: 0 12px;
+    .btn:hover { background: var(--blue-light); }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-secondary {
+      background: var(--blue-dim);
+      color: var(--blue-light);
+      border: 1px solid var(--border);
     }
 
-    /* ─── SUBSCRIPTION SECTION ─── */
-    .subscribe-section {
-      min-height: 100vh;
+    /* ─── Articles Page & Grid ─── */
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: rgba(240,244,248,0.6);
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(26, 109, 255, 0.4);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+
+    .card-text {
+      font-size: 14px;
+      color: rgba(240,244,248,0.5);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* ─── Contact Form ─── */
+    .contact-container {
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    /* ─── Email Gate Modal overlay ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 12, 16, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
       align-items: center;
       justify-content: center;
-      padding: 100px 24px;
-      text-align: center;
-      position: relative;
+      padding: 24px;
     }
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      color: var(--blue);
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards;
-      animation-play-state: paused;
-    }
-
-    .section-label.visible {
-      animation-play-state: running;
-    }
-
-    .subscribe-headline {
-      font-size: clamp(30px, 5vw, 54px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      color: var(--white);
-      margin-bottom: 16px;
-      line-height: 1.2;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.15s;
-      animation-play-state: paused;
-    }
-
-    .subscribe-headline.visible {
-      animation-play-state: running;
-    }
-
-    .subscribe-sub {
-      font-size: 16px;
-      color: rgba(240,244,248,0.5);
-      margin-bottom: 52px;
-      max-width: 420px;
-      line-height: 1.7;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.25s;
-      animation-play-state: paused;
-    }
-
-    .subscribe-sub.visible {
-      animation-play-state: running;
-    }
-
-    /* Form */
-    .form-wrap {
+    .modal-overlay.show {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      width: 100%;
-      max-width: 440px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.35s;
-      animation-play-state: paused;
     }
 
-    .form-wrap.visible {
-      animation-play-state: running;
+    .modal-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 32px;
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Form UI Elements */
+    .form-group {
+      width: 100%;
+      margin-top: 24px;
     }
 
     .input-group {
       display: flex;
+      flex-direction: column;
+      gap: 12px;
       width: 100%;
-      border: 1px solid var(--blue-line);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(26,109,255,0.04);
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .input-group:focus-within {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(26,109,255,0.15);
     }
 
     .email-input {
-      flex: 1;
-      padding: 16px 20px;
+      width: 100%;
+      padding: 16px;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       font-size: 15px;
-      background: transparent;
-      border: none;
-      outline: none;
+      background: rgba(8, 12, 16, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       color: var(--white);
-      direction: rtl;
+      outline: none;
       text-align: right;
     }
 
-    .email-input::placeholder {
-      color: rgba(240,244,248,0.3);
+    .email-input:focus {
+      border-color: var(--blue);
     }
-
-    .submit-btn {
-      padding: 16px 24px;
-      background: var(--blue);
-      border: none;
-      color: var(--white);
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s ease, opacity 0.2s ease;
-      letter-spacing: 0.3px;
-    }
-
-    .submit-btn:hover { background: var(--blue-light); }
-    .submit-btn:active { transform: scale(0.98); }
-    .submit-btn:disabled { background: #555; cursor: not-allowed; opacity: 0.6; }
 
     .micro-copy {
       font-size: 12px;
-      color: rgba(240,244,248,0.3);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: rgba(240,244,248,0.4);
+      margin-top: 12px;
     }
 
-    .micro-copy svg {
-      width: 12px;
-      height: 12px;
-      fill: rgba(26,109,255,0.6);
-      flex-shrink: 0;
-    }
-
-    /* Success State */
-    .success-msg {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      color: var(--blue-light);
-      font-size: 18px;
-      font-weight: 600;
-      padding: 20px;
-    }
-
-    .success-msg.show { display: flex; }
-    .success-icon { font-size: 40px; }
-
-    /* Blueprint panels */
-    .bp-panel {
-      position: absolute;
-      border: 1px solid var(--blue-line);
-      border-radius: 8px;
-      background: rgba(26,109,255,0.02);
-      padding: 12px 16px;
-      font-size: 11px;
-      color: rgba(26,109,255,0.4);
-      letter-spacing: 0.5px;
-      pointer-events: none;
-    }
-
-    .bp-panel--1 {
-      top: 12%;
-      left: 4%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .bp-panel--2 {
-      bottom: 14%;
-      right: 4%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .bp-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .bp-key { opacity: 0.5; }
-    .bp-val { color: rgba(26,109,255,0.7); }
-
-    /* ─── FOOTER ─── */
+    /* ─── Footer ─── */
     footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--blue-line);
+      border-top: 1px solid var(--border);
       padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
       text-align: center;
+      background: rgba(11, 15, 20, 0.5);
     }
 
     .footer-email {
-      font-size: 14px;
-      color: rgba(240,244,248,0.45);
+      color: rgba(240,244,248,0.5);
       text-decoration: none;
-      transition: color 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 14px;
+      transition: color 0.2s;
     }
 
     .footer-email:hover { color: var(--blue-light); }
 
-    .footer-email svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-    }
-
     .footer-copy {
-      font-size: 11px;
-      color: rgba(240,244,248,0.2);
-      letter-spacing: 0.5px;
-    }
-
-    /* ─── Animations ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 600px) {
-      .ruler { display: none; }
-      .bp-panel { display: none; }
-      .crosshair { display: none; }
-      .corner { width: 20px; height: 20px; }
-
-      .input-group {
-        flex-direction: column;
-        border-radius: 12px;
-      }
-
-      .submit-btn {
-        border-radius: 0 0 11px 11px;
-        padding: 14px;
-        width: 100%;
-      }
-
-      .email-input {
-        padding: 14px 16px;
-      }
+      font-size: 12px;
+      color: rgba(240,244,248,0.25);
+      margin-top: 8px;
     }
   </style>
 </head>
 <body>
 
-  <div class="blueprint-bg"></div>
-  <div class="scanline"></div>
+  <header>
+    <div class="nav-container">
+      <a href="#home" class="logo-text">تقدّم</a>
+      <nav>
+        <a href="#home" id="nav-home">الرئيسية</a>
+        <a href="#articles" id="nav-articles">المقالات والملفات</a>
+        <a href="#contact" id="nav-contact">اتصل بنا</a>
+      </nav>
+    </div>
+  </header>
 
-  <div class="corner corner--tl"></div>
-  <div class="corner corner--tr"></div>
-  <div class="corner corner--bl"></div>
-  <div class="corner corner--br"></div>
+  <main>
+    
+    <section id="page-home" class="page">
+      <div class="hero">
+        <div class="badge">منصة تقدّم التعليمية</div>
+        <h1 class="headline">مستقبل التعليم البسيط <em>بين يديك</em></h1>
+        <p class="subline">صُمّمت خصيصاً لك لتمنحك وصولاً سريعاً ومباشراً لأفضل المقالات والملفات التعليمية بكل سلاسة.</p>
+        <a href="#articles" class="btn">تصفح الملفات الآن</a>
+      </div>
+    </section>
 
-  <div class="wrapper">
+    <section id="page-articles" class="page">
+      <h2 class="section-title">المقالات والملفات التعليمية</h2>
+      <p class="section-desc">اضغط على أي ملف لتحميله مباشرة بصيغة PDF.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div>
+            <h3 class="card-title">كتاب أساسيات التقنية الحديثة</h3>
+            <p class="card-text">شرح مبسط ومفصل للتقنيات الأساسية التي تدير العالم الرقمي اليوم ومستقبلاً.</p>
+          </div>
+          <button class="btn pdf-download-btn" data-pdf-id="pdf1" data-pdf-url="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pdfs/file1.pdf">تحميل الملف (PDF)</button>
+        </div>
 
-    <section class="hero" id="hero">
+        <div class="card">
+          <div>
+            <h3 class="card-title">دليل البرمجة للمبتدئين</h3>
+            <p class="card-text">خطواتك الأولى لتعلم لغات البرمجة الشائعة وكيف تبني مشروعك الأول.</p>
+          </div>
+          <button class="btn pdf-download-btn" data-pdf-id="pdf2" data-pdf-url="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pdfs/file2.pdf">تحميل الملف (PDF)</button>
+        </div>
 
-      <div class="ruler">
-        <div class="ruler-marks">
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
-          <div class="ruler-mark"></div><div class="ruler-mark"></div>
+        <div class="card">
+          <div>
+            <h3 class="card-title">ملخص إستراتيجيات المذاكرة الفعالة</h3>
+            <p class="card-text">أفضل الطرق والأساليب العلمية المجربة لتحسين التركيز واسترجاع المعلومات.</p>
+          </div>
+          <button class="btn pdf-download-btn" data-pdf-id="pdf3" data-pdf-url="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pdfs/file3.pdf">تحميل الملف (PDF)</button>
         </div>
       </div>
+    </section>
 
-      <div class="crosshair crosshair--1"></div>
-      <div class="crosshair crosshair--2"></div>
+    <section id="page-contact" class="page">
+      <div class="contact-container">
+        <h2 class="section-title" style="text-align: center;">تواصل معنا</h2>
+        <p class="section-desc" style="text-align: center;">يسعدنا دائماً الاستماع إلى اقتراحاتك واستفساراتك عبر أي من القنوات التالية:</p>
+        
+        <div class="card" style="margin-top: 24px; padding: 40px 32px;">
+          <div class="contact-buttons">
+            <a href="https://wa.me/966535172894" target="_blank" class="btn" style="background: #25D366; color: #fff;">
+              تواصل عبر الواتساب
+            </a>
+            
+            <a href="tel:+966535172894" class="btn">
+              اتصال هاتفـي مباشر
+            </a>
 
-      <div class="logo-wrap">
-        <div class="logo-mark">
-          <div class="logo-icon">
-            <img src="logo.png" alt="تقدم Logo" style="width:100%;height:100%;object-fit:contain;filter:invert(1);">
+            <a href="mailto:contact@tqdum.com" class="btn btn-secondary">
+              البريد الإلكتروني: contact@tqdum.com
+            </a>
           </div>
         </div>
-		<div class="logo-text">تقدّم</div>
       </div>
-
-      <div class="badge">
-        <div class="badge-dot"></div>
-        قريباً · COMING SOON
-      </div>
-
-      <h1 class="headline">
-        الإنطلاق
-        <em>قرب</em>
-      </h1>
-
-      <p class="subline">
-        جاهزين لشيء مختلف — منصة تعليمية جديدة كلياً،
-        صُمّمت لك وبلغتك وبأسلوبك.
-      </p>
-
-      <a href="#subscribe" class="scroll-cta">
-        اكتشف أكثر
-        <svg class="scroll-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-
     </section>
 
-    <hr class="section-divider" />
+  </main>
 
-    <section class="subscribe-section" id="subscribe">
-
-      <div class="bp-panel bp-panel--1">
-        <div class="bp-row"><span class="bp-key">STATUS</span><span class="bp-val">IN DEVELOPMENT</span></div>
-        <div class="bp-row"><span class="bp-key">REGION</span><span class="bp-val">KSA</span></div>
-        <div class="bp-row"><span class="bp-key">LANG</span><span class="bp-val">AR</span></div>
-      </div>
-
-      <div class="bp-panel bp-panel--2">
-        <div class="bp-row"><span class="bp-key">PHASE</span><span class="bp-val">PRE-LAUNCH</span></div>
-        <div class="bp-row"><span class="bp-key">MODE</span><span class="bp-val">BETA SIGNUP</span></div>
-      </div>
-
-      <p class="section-label anim-trigger">ابق على اطلاع</p>
-
-      <h2 class="subscribe-headline anim-trigger">
-        خلّك أول واحد يعرف
-      </h2>
-
-      <p class="subscribe-sub anim-trigger">
-        اكتب إيميلك ونبلغك أول ما نبدأ —<br />
-        ما تفوّت اللحظة
-      </p>
-
-      <form action="https://docs.google.com/forms/u/0/d/1-K4zjj1JpjRDB5PHAs7uiPh2eAhvbwF60iyN7aVhIdI/formResponse" method="POST" class="form-wrap anim-trigger" id="formWrap">
-        <div class="input-group">
-          <input
-			name="entry.1463635083"
-            class="email-input"
-            type="email"
-            id="emailInput"
-            placeholder="إيميلك هنا..."
-            autocomplete="email"
-            required
-          />
-          <button type="submit" class="submit-btn" id="submitBtn">سجّلني</button>
+  <div class="modal-overlay" id="emailGateModal">
+    <div class="modal-box">
+      <h3 style="font-size: 20px; margin-bottom: 12px;">فضلاً، أدخل بريدك الإلكتروني للتحميل</h3>
+      <p style="font-size: 14px; color: rgba(240,244,248,0.6);">سجل إيميلك معنا لتتمكن من فتح وتحميل جميع الملفات والمقالات مباشرة</p>
+      
+      <form action="https://docs.google.com/forms/u/0/d/1-K4zjj1JpjRDB5PHAs7uiPh2eAhvbwF60iyN7aVhIdI/formResponse" method="POST" id="gateForm">
+        <div class="form-group">
+          <div class="input-group">
+            <input
+              name="entry.1463635083"
+              class="email-input"
+              type="email"
+              id="gateEmailInput"
+              placeholder="إيميلك هنا..."
+              autocomplete="email"
+              required
+            />
+            <button type="submit" class="btn" id="gateSubmitBtn" style="width: 100%;">تأكيد وتحميل الملف</button>
+          </div>
+          <p class="micro-copy">لن نرسل لك أي رسائل مزعجة، فقط تنبيهات الإطلاق الهامة.</p>
         </div>
-
-        <p class="micro-copy">
-          <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 6a1 1 0 110 2 1 1 0 010-2zm1 4H7v-3h2v3z"/>
-          </svg>
-          ما نرسل لك أي شيء غير إشعار الإطلاق، وخلاص
-        </p>
       </form>
-
-      <div class="success-msg" id="successMsg">
-        <div class="success-icon">✦</div>
-        <p>تم التسجيل! نبلّغك أول ما ننطلق 🚀</p>
-      </div>
-
-    </section>
-
-    <footer>
-      <a href="mailto:contact@tqdum.com" class="footer-email">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-        </svg>
-        contact@tqdum.com
-      </a>
-      <p class="footer-copy">© 2025 تقدّم · جميع الحقوق محفوظة</p>
-    </footer>
-
+    </div>
   </div>
 
-  <script>
-    // ─── Intersection Observer for scroll animations
-    const animTargets = document.querySelectorAll('.anim-trigger');
+  <footer>
+    <a href="mailto:contact@tqdum.com" class="footer-email">contact@tqdum.com</a>
+    <p class="footer-copy">© 2026 تقدّم · جميع الحقوق محفوظة</p>
+  </footer>
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+  <script>
+    // --- 1. Router Setup ---
+    function router() {
+      const hash = window.location.hash || '#home';
+      const cleanHash = hash.split('?')[0];
+      
+      const targetPageId = 'page-' + cleanHash.replace('#', '');
+      const targetNavId = 'nav-' + cleanHash.replace('#', '');
+      
+      const pages = document.querySelectorAll('.page');
+      const navLinks = document.querySelectorAll('nav a');
+      
+      let pageFound = false;
+      pages.forEach(page => {
+        if (page.id === targetPageId) {
+          page.classList.add('active-page');
+          pageFound = true;
+        } else {
+          page.classList.remove('active-page');
         }
       });
-    }, { threshold: 0.15 });
+      
+      if (!pageFound) {
+        document.getElementById('page-home').classList.add('active-page');
+      }
 
-    animTargets.forEach(el => observer.observe(el));
+      navLinks.forEach(link => {
+        if (link.id === targetNavId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
 
+      checkDirectPdfLink();
+    }
 
-    // ─── AJAX Email subscription handler ───
-    document.getElementById('formWrap').addEventListener('submit', function(e) {
-      e.preventDefault(); // منع الصفحة من الارسال وإعادة التحميل الافتراضية
+    window.addEventListener('hashchange', router);
+    window.addEventListener('DOMContentLoaded', router);
+
+    // --- 2. Shareable Links Tracker ---
+    let pendingPdfUrl = null;
+
+    function checkDirectPdfLink() {
+      const hash = window.location.hash;
+      if (hash.includes('?pdf=')) {
+        const urlParams = new URLSearchParams(hash.split('?')[1]);
+        const pdfId = urlParams.get('pdf');
+        const targetBtn = document.querySelector(`[data-pdf-id="${pdfId}"]`);
+        
+        if (targetBtn) {
+          const pdfUrl = targetBtn.getAttribute('data-pdf-url');
+          handlePdfRequest(pdfUrl);
+        }
+      }
+    }
+
+    // --- 3. LocalStorage Email Check Gate ---
+    const downloadButtons = document.querySelectorAll('.pdf-download-btn');
+    const modal = document.getElementById('emailGateModal');
+
+    downloadButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const pdfUrl = this.getAttribute('data-pdf-url');
+        handlePdfRequest(pdfUrl);
+      });
+    });
+
+    function handlePdfRequest(pdfUrl) {
+      const userHasSubscribed = localStorage.getItem('user_subscribed_tqdum');
+      
+      if (userHasSubscribed) {
+        window.open(pdfUrl, '_blank');
+      } else {
+        pendingPdfUrl = pdfUrl;
+        modal.classList.add('show');
+      }
+    }
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+        pendingPdfUrl = null;
+      }
+    });
+
+    // --- 4. AJAX Google Form Action Pipeline ---
+    document.getElementById('gateForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
       const form = e.target;
-      const input = document.getElementById('emailInput');
-      const button = document.getElementById('submitBtn');
+      const input = document.getElementById('gateEmailInput');
+      const button = document.getElementById('gateSubmitBtn');
       const val = input.value.trim();
 
-      // التحقق الأساسي من الإيميل
       if (!val || !val.includes('@')) {
         input.focus();
-        input.style.borderColor = 'rgba(255,80,80,0.5)';
-        setTimeout(() => { input.style.borderColor = ''; }, 1500);
         return;
       }
 
-      // تغيير حالة الزر أثناء الإرسال لمنع التكرار
-      button.innerText = "جاري الحفظ...";
+      button.innerText = "جاري الحفظ والتحميل...";
       button.disabled = true;
 
-      // تجهيز البيانات الملتقطة من الحقول لإرسالها
       const formData = new FormData(form);
 
-      // إرسال البيانات إلى السيرفر في الخلفية عبر AJAX (Fetch API)
       fetch(form.action, {
         method: 'POST',
-        mode: 'no-cors', // ضروري جداً لتجنب مشاكل CORS مع خوادم جوجل
+        mode: 'no-cors',
         body: formData
       })
       .then(() => {
-        // بمجرد إتمام الإرسال، نقوم بتنفيذ مؤثر الاختفاء والاظهار الحالي في صفحتك
-        const formWrap = document.getElementById('formWrap');
-        const successMsg = document.getElementById('successMsg');
+        localStorage.setItem('user_subscribed_tqdum', 'true');
+        modal.classList.remove('show');
+        button.innerText = "تأكيد وتحميل الملف";
+        button.disabled = false;
 
-        formWrap.style.opacity = '0';
-        formWrap.style.transform = 'translateY(-10px)';
-        formWrap.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-
-        setTimeout(() => {
-          formWrap.style.display = 'none';
-          successMsg.classList.add('show');
-        }, 300);
-
-        form.reset(); // تفريغ الحقل
+        if (pendingPdfUrl) {
+          window.open(pendingPdfUrl, '_blank');
+          pendingPdfUrl = null;
+        }
+        form.reset();
       })
       .catch(error => {
-        console.error('Error submitting to Google Forms:', error);
-        // إعادة الزر لوضعه في حال حدث خطأ تقني نادر بالشبكة
-        button.innerText = "سجّلني";
+        console.error('Error:', error);
+        button.innerText = "تأكيد وتحميل الملف";
         button.disabled = false;
         alert("حدث خطأ أثناء الاتصال، يرجى المحاولة مرة أخرى.");
       });
     });
-
-
-    // ─── Smooth scroll for scroll CTA
-    document.querySelector('.scroll-cta').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('subscribe').scrollIntoView({ behavior: 'smooth' });
-    });
   </script>
-
 </body>
 </html>
